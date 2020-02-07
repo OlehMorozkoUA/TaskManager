@@ -1,0 +1,153 @@
+﻿<Window x:Class="TaskMeneger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskMeneger"
+        mc:Ignorable="d"
+        Title="TaskManager" Height="600" Width="1080"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}" WindowStyle="None"
+        SizeChanged="Window_SizeChanged">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="Technical Italic, Comic Sans MS, Arial"/>
+        </Style>
+        <Storyboard x:Key="MenuOpen">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="200"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="60"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="MenuClose">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="GridMenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="60"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="200"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="BtnOpenMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuClose}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="BtnCloseMenu">
+            <BeginStoryboard Storyboard="{StaticResource MenuOpen}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Border Background="White" BorderThickness="5" BorderBrush="White">
+        <Border Background="OrangeRed" BorderThickness="3" BorderBrush="OrangeRed">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="{DynamicResource PrimaryHueDarkBrush}" BorderThickness="3">
+                    <Grid Grid.Row="0" MouseLeftButtonDown="Grid_MouseLeftButtonDown" Background="{DynamicResource PrimaryHueLightBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="2" x:Name="BtnMin" Click="BtnMin_Click" Height="35" Width="35" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            ToolTip="MaterialDesignFloatingActionButton">
+                            <materialDesign:PackIcon Kind="WindowMinimize" Height="20" Width="20" />
+                        </Button>
+                        <Button Grid.Column="3" x:Name="BtnMax" Click="BtnMax_Click" Height="35" Width="35" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            ToolTip="MaterialDesignFloatingActionButton">
+                            <materialDesign:PackIcon x:Name="PackIconWindowMax" Kind="WindowMaximize" Height="20" Width="20" />
+                        </Button>
+                        <Button Grid.Column="4" x:Name="BtnClose" Click="BtnClose_Click" Height="35" Width="35" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                            ToolTip="MaterialDesignFloatingActionButton">
+                            <materialDesign:PackIcon Kind="WindowClose" Height="20" Width="20" />
+                        </Button>
+
+                        <TextBlock Grid.Column="1" FontWeight="Bold" FontStretch="Expanded" FontSize="25" Text="Task Manager" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <Ellipse Margin="5" Height="50" Width="50" Stroke="{DynamicResource PrimaryHueDarkBrush}" StrokeThickness="3">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="images/icon.ico" Stretch="Fill"/>
+                            </Ellipse.Fill>
+                            <Ellipse.Effect>
+                                <DropShadowEffect ShadowDepth="0" BlurRadius="30" Color="Orange"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Row="1" Background="LightGray">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" VerticalAlignment="Top" Background="#FFFFA437">
+                        <TextBlock x:Name="TextBoxTopic" Text="Something" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                            <TextBlock FontSize="18" Text="Menu" VerticalAlignment="Center"/>
+                            <materialDesign:PopupBox Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                                <StackPanel Width="150">
+                                    <Button Content="Account" IsEnabled="False"/>
+                                    <Button Content="Setting"/>
+                                    <Button Content="Help"/>
+                                    <Separator/>
+                                    <Button x:Name="BtnLogin" Click="BtnLogin_Click" Content="Login"/>
+                                    <Button x:Name="BtnLogout" Content="Logout" IsEnabled="False"/>
+                                    <Button x:Name="BtnRegistrate" Click="BtnRegistrate_Click" Content="Registrate"/>
+                                    <Separator/>
+                                    <Button x:Name="ButtonPopUpLogout" Content="Close" Click="ButtonPopUpLogout_Click"/>
+
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="100 0 0 0">
+                        <Frame x:Name="NewPage" ContentRendered="NewPage_ContentRendered"/>
+                    </Grid>
+                    <Grid Grid.RowSpan="2" x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FFEE8C18">
+                        <StackPanel>
+                            <Grid Height="150" Background="White">
+                                <Button x:Name="BtnCloseMenu" Height="60" Width="60" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Visibility="Collapsed" Click="BtnCloseMenu_Click">
+                                    <materialDesign:PackIcon Foreground="#FFE68E25" Kind="ArrowLeft" Height="25" Width="25"/>
+                                </Button>
+                                <Button x:Name="BtnOpenMenu" Height="60" Width="60" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Click="BtnOpenMenu_Click">
+                                    <materialDesign:PackIcon Foreground="#FFE68E25" Kind="Menu" Height="25" Width="25"/>
+                                </Button>
+                            </Grid>
+                            <ListView Foreground="{DynamicResource PrimaryHueLightBrush}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" x:Name="LV_Btn" SelectionChanged="LV_Btn_SelectionChanged">
+                                <ListViewItem Height="60">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon VerticalAlignment="Center" Margin="10" Kind="ViewDashboard" Height="25" Width="25"/>
+                                        <TextBlock Text="Home" FontSize="25" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                                <ListViewItem Height="60">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon VerticalAlignment="Center" Margin="10" Kind="Pencil" Height="25" Width="25"/>
+                                        <TextBlock Text="Create" FontSize="25" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                                <ListViewItem Height="60">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon VerticalAlignment="Center" Margin="10" Kind="Message" Height="25" Width="25"/>
+                                        <TextBlock Text="Message" FontSize="25" VerticalAlignment="Center" Margin="10"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </ListView>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>
